@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\WarehouseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,26 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+// List all warehouse items
+Route::get('/warehouse', [WarehouseController::class, 'index']);
+
+// Show the form to create a new warehouse item
+Route::get('/warehouse/create', [WarehouseController::class, 'create']);
+
+// Store a new warehouse item
+Route::post('/warehouse', [WarehouseController::class, 'store']);
+
+// Show a specific warehouse item
+Route::get('/warehouse/{id}', [WarehouseController::class, 'show']);
+
+// Show the form to edit a warehouse item
+Route::get('/warehouse/{id}/edit', [WarehouseController::class, 'edit']);
+
+// Update a warehouse item
+Route::put('/warehouse/{id}', [WarehouseController::class, 'update']);
+
+// Delete a warehouse item
+Route::delete('/warehouse/{id}', [WarehouseController::class, 'destroy']);
+

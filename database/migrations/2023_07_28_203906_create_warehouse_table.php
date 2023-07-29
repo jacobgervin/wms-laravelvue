@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('warehouse', function (Blueprint $table) {
             $table->id();
-            $table->customer();
-            $table->type();
-            $table->measure();
-            $table->amount();
+            $table->string('customer'); // Change 'customer()' to 'string()'
+            $table->string('type');     // Change 'type()' to 'string()'
+            $table->string('measure');  // Change 'measure()' to 'string()'
+            $table->decimal('amount');  // Change 'amount()' to 'decimal()'
+            // Add other columns as needed
+            $table->timestamps(); // Example: Add created_at and updated_at columns
         });
     }
+    
 
     /**
      * Reverse the migrations.
