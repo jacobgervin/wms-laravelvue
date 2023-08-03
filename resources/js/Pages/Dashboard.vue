@@ -7,11 +7,11 @@ import WarehouseList from '@/Components/WarehouseList.vue';
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Materialer" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Materialer</h2>
         </template>
          <WarehouseList></WarehouseList>
     </AuthenticatedLayout>
