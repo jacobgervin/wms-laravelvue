@@ -33,10 +33,10 @@
         <table class="table-fixed container text-left m-auto mt-3 bg-white shadow border-collapse border border-slate-200">
             <thead class="">
                 <tr class="">
-                <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer" @click="sortColumn('customer')">Kunde</th>
-                <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer" @click="sortColumn('type')">Type</th>
-                <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer" @click="sortColumn('measure')">Plademål</th>
-                <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer" @click="sortColumn('amount')">Antal</th>
+                <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer" @click="sortColumn('customer')">Kunde <button v-if="sortKey === 'customer' && sortDirection === 'asc'">&#8593;</button><button v-else>&#8595;</button></th>
+                <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer" @click="sortColumn('type')">Type <button v-if="sortKey === 'type' && sortDirection === 'asc'">&#8593;</button><button v-else>&#8595;</button></th>
+                <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer" @click="sortColumn('measure')">Plademål <button v-if="sortKey === 'measure' && sortDirection === 'asc'">&#8593;</button><button v-else>&#8595;</button></th>
+                <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer" @click="sortColumn('amount')">Antal <button v-if="sortKey === 'amount' && sortDirection === 'asc'">&#8593;</button><button v-else>&#8595;</button></th>
                 <th class="p-3 border border-slate-200 hover:bg-slate-100 cursor-pointer"></th>
 
                 </tr>
@@ -46,10 +46,10 @@
                 <td class="p-3 border border-slate-200">{{ item.customer }}</td>
                 <td class="p-3 border border-slate-200">{{ item.type }}</td>
                 <td class="p-3 border border-slate-200">{{ item.measure }}</td>
-                <td class="p-3 border border-slate-200 relative"><div class="flex flex-row">{{ item.amount }}
+                <td class="p-3 border border-slate-200 relative"><div class="flex flex-row items-center">{{ item.amount }}
                   <div class="absolute right-6 space-x-6">
-                <button @click="increaseAmount(item)">+</button>
-                <button @click="decreaseAmount(item)">-</button>
+                <button class="hover:bg-slate-200 w-8 h-8 rounded-full" @click="increaseAmount(item)">+</button>
+                <button class="hover:bg-slate-200 w-8 h-8 rounded-full" @click="decreaseAmount(item)">-</button>
                   </div>
                   </div>
                </td>
@@ -114,6 +114,7 @@ import axios from 'axios';
     return {
       sortKey: '',
       sortDirection: 'asc',
+      sortIndicator: false,
       warehouseItems: [],
       editItem: [],
       newItem: {
@@ -128,7 +129,9 @@ import axios from 'axios';
         measure: '',
         amount: '',
       },
-      editModal: false
+      editModal: false, 
+      itemsSorted: false,
+      searchQuery: '',
     };
   },
 
@@ -141,6 +144,7 @@ import axios from 'axios';
       items.sort((a, b) => {
         const aValue = a[this.sortKey];
         const bValue = b[this.sortKey];
+
 
         if (aValue === bValue) return 0;
         return this.sortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
@@ -186,9 +190,6 @@ import axios from 'axios';
         item.amount--; // Decrement the amount of the item (if it's greater than 0)
         this.updateWarehouseItem(item);
       }
-    },
-    sortByCustomer(){
-
     },
 
     updateWarehouseItem(item) {
